@@ -1,14 +1,16 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useRef, useState} from 'react';
 
 const EventsExample: FC = () => {
     const [value, setValue] = useState<string>('')
     const [isDrag, setIsDrag] = useState<boolean>(false)
+    const inputRef = useRef<HTMLInputElement>(null)
     const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         setValue(event.target.value)
     }
 
     const clickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
         console.log(value)
+        console.log(inputRef.current?.value)
     }
 
     const dragHandler = (event: React.DragEvent<HTMLDivElement>) => {
@@ -32,7 +34,8 @@ const EventsExample: FC = () => {
     }
     return (
         <div>
-            <input type={"text"} onChange={changeHandler} value={value}/>
+            <input type={"text"} onChange={changeHandler} value={value} placeholder={"Управляемый"}/>
+            <input ref={inputRef} type={"text"}  placeholder={"Не управляемый"}/>
             <button onClick={clickHandler}> клик</button>
             <div onDrag={dragHandler} draggable style={{width: 200, height: 200, background: 'red'}}></div>
             <div
